@@ -1,5 +1,7 @@
 # Первые модели: validation
 
+Следующий эксперимент: [сравнение четырёх моделей](comparison.md).
+
 Результаты получены командой `python scripts/train_baseline.py` на фиксированной
 версии IBM Telco Customer Churn. Полные метрики, SHA-256 данных и версии библиотек
 сохранены в [baseline.json](baseline.json).

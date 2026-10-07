@@ -1,5 +1,6 @@
-"""Обучить baseline и логистическую регрессию; оценить только на validation."""
+"""Обучить первые модели и ансамбли; оценить только на validation."""
 
+import argparse
 import hashlib
 from importlib.metadata import version
 import json
@@ -11,6 +12,7 @@ import numpy as np
 import pandas as pd
 from sklearn.compose import ColumnTransformer
 from sklearn.dummy import DummyClassifier
+from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
 from sklearn.exceptions import ConvergenceWarning
 from sklearn.impute import SimpleImputer
 from sklearn.linear_model import LogisticRegression
@@ -76,22 +78,45 @@ def split_data(frame):
     return {"train": train, "validation": validation, "test": test}
 
 
-def build_logistic_model():
-    numeric = Pipeline([
-        ("imputer", SimpleImputer(strategy="median")),
-        ("scaler", StandardScaler()),
-    ])
+def build_preprocessing(scale_numeric):
+    numeric_steps = [("imputer", SimpleImputer(strategy="median"))]
+    if scale_numeric:
+        numeric_steps.append(("scaler", StandardScaler()))
+    numeric = Pipeline(numeric_steps)
     categorical = Pipeline([
         ("imputer", SimpleImputer(strategy="most_frequent")),
         ("encoder", OneHotEncoder(handle_unknown="ignore", sparse_output=False)),
     ])
-    preprocessing = ColumnTransformer([
+    return ColumnTransformer([
         ("numeric", numeric, NUMERIC_FEATURES),
         ("categorical", categorical, CATEGORICAL_FEATURES),
     ], remainder="drop")
+
+
+def build_logistic_model():
     return Pipeline([
-        ("preprocessing", preprocessing),
+        ("preprocessing", build_preprocessing(scale_numeric=True)),
         ("classifier", LogisticRegression(max_iter=2000, random_state=RANDOM_STATE)),
+    ])
+
+
+def build_forest_model():
+    return Pipeline([
+        ("preprocessing", build_preprocessing(scale_numeric=False)),
+        ("classifier", RandomForestClassifier(
+            n_estimators=300, max_depth=8, min_samples_leaf=5,
+            max_features="sqrt", bootstrap=True, n_jobs=2, random_state=RANDOM_STATE,
+        )),
+    ])
+
+
+def build_boosting_model():
+    return Pipeline([
+        ("preprocessing", build_preprocessing(scale_numeric=False)),
+        ("classifier", GradientBoostingClassifier(
+            n_estimators=150, learning_rate=0.05, max_depth=2,
+            min_samples_leaf=10, random_state=RANDOM_STATE,
+        )),
     ])
 
 
@@ -114,7 +139,20 @@ def write_json(path, contents):
     path.write_text(json.dumps(contents, ensure_ascii=False, indent=2) + "\n")
 
 
+def save_split_manifest(path, manifest):
+    if path.exists():
+        if json.loads(path.read_text()) != manifest:
+            raise ValueError("Данные или разбиение отличаются от artifacts/splits.json. "
+                             "Нельзя незаметно менять выборку для сравнения моделей.")
+        return
+    write_json(path, manifest)
+
+
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--compare-models", action="store_true",
+                        help="Сравнить также случайный лес и градиентный бустинг")
+    args = parser.parse_args()
     if not DATA_PATH.exists():
         raise SystemExit("Сначала запустите: python scripts/download_data.py")
     frame = load_data(DATA_PATH)
@@ -123,7 +161,7 @@ def main():
     artifacts.mkdir(exist_ok=True)
 
     data_hash = hashlib.sha256(DATA_PATH.read_bytes()).hexdigest()
-    write_json(artifacts / "splits.json", {
+    save_split_manifest(artifacts / "splits.json", {
         "dataset_sha256": data_hash,
         "random_state": RANDOM_STATE,
         "customer_ids": {
@@ -136,15 +174,31 @@ def main():
         "dummy_prior": DummyClassifier(strategy="prior"),
         "logistic_regression": build_logistic_model(),
     }
+    if args.compare_models:
+        models.update({
+            "random_forest": build_forest_model(),
+            "gradient_boosting": build_boosting_model(),
+        })
     metrics = {}
+    model_parameters = {}
+    tree_depths = {}
     for name, model in models.items():
+        print(f"Обучение: {name}", flush=True)
         with warnings.catch_warnings():
             warnings.simplefilter("error", ConvergenceWarning)
             model.fit(train[FEATURES], train["Churn"])
         metrics[name] = evaluate(model, validation[FEATURES], validation["Churn"])
-
-    # Сохраняем весь pipeline, включая преобразования, обученные только на train.
-    joblib.dump(models["logistic_regression"], artifacts / "logistic_regression.joblib")
+        classifier = model.named_steps["classifier"] if isinstance(model, Pipeline) else model
+        model_parameters[name] = classifier.get_params(deep=False)
+        if name in {"random_forest", "gradient_boosting"}:
+            trees = np.asarray(classifier.estimators_, dtype=object).reshape(-1)
+            depths = [tree.get_depth() for tree in trees]
+            tree_depths[name] = {
+                "count": len(depths), "min": min(depths), "max": max(depths),
+                "median": float(np.median(depths)),
+            }
+        # Сохраняем pipeline с преобразованиями, обученными только на train.
+        joblib.dump(model, artifacts / f"{name}.joblib")
     report = {
         "dataset_sha256": data_hash,
         "random_state": RANDOM_STATE,
@@ -160,7 +214,18 @@ def main():
         },
         "metrics": metrics,
     }
-    write_json(PROJECT_ROOT / "reports" / "baseline.json", report)
+    if args.compare_models:
+        report.update({
+            "model_parameters": model_parameters,
+            "tree_depths": tree_depths,
+            "comparison_metric": "average_precision",
+            "ranking_by_validation_ap": sorted(
+                metrics, key=lambda name: metrics[name]["average_precision"], reverse=True,
+            ),
+            "final_model_selected": False,
+        })
+    report_name = "comparison.json" if args.compare_models else "baseline.json"
+    write_json(PROJECT_ROOT / "reports" / report_name, report)
 
     print("Размеры частей:", report["split_sizes"])
     print("\nValidation, порог 0.5:")
@@ -168,7 +233,7 @@ def main():
     for name, result in metrics.items():
         print(f"{name:24} {result['roc_auc']:9.4f} {result['average_precision']:9.4f} "
               f"{result['precision']:10.4f} {result['recall']:9.4f}")
-    print("\nTest не оценивался. Отчёт: reports/baseline.json")
+    print(f"\nTest не оценивался. Отчёт: reports/{report_name}")
 
 
 if __name__ == "__main__":
