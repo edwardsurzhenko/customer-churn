@@ -1,0 +1,82 @@
+{
+  "dataset_sha256": "16320c9c1ec72448db59aa0a26a0b95401046bef5d02fd3aeb906448e3055e91",
+  "random_state": 42,
+  "split_sizes": {
+    "train": 4225,
+    "validation": 1409,
+    "test": 1409
+  },
+  "evaluation_split": "validation",
+  "test_evaluated": false,
+  "positive_class": "Churn=Yes",
+  "classification_threshold": 0.5,
+  "feature_columns": [
+    "tenure",
+    "MonthlyCharges",
+    "TotalCharges",
+    "gender",
+    "SeniorCitizen",
+    "Partner",
+    "Dependents",
+    "PhoneService",
+    "MultipleLines",
+    "InternetService",
+    "OnlineSecurity",
+    "OnlineBackup",
+    "DeviceProtection",
+    "TechSupport",
+    "StreamingTV",
+    "StreamingMovies",
+    "Contract",
+    "PaperlessBilling",
+    "PaymentMethod"
+  ],
+  "excluded_columns": [
+    "customerID",
+    "Churn"
+  ],
+  "versions": {
+    "pandas": "3.0.6",
+    "numpy": "2.5.3",
+    "scikit-learn": "1.9.1",
+    "joblib": "1.6.0"
+  },
+  "metrics": {
+    "dummy_prior": {
+      "roc_auc": 0.5,
+      "average_precision": 0.2654364797728886,
+      "accuracy": 0.7345635202271115,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "confusion_matrix": [
+        [
+          1035,
+          0
+        ],
+        [
+          374,
+          0
+        ]
+      ]
+    },
+    "logistic_regression": {
+      "roc_auc": 0.836005838435506,
+      "average_precision": 0.6423693762805338,
+      "accuracy": 0.8026969481902059,
+      "precision": 0.6578947368421053,
+      "recall": 0.5347593582887701,
+      "f1": 0.5899705014749262,
+      "confusion_matrix": [
+        [
+          931,
+          104
+        ],
+        [
+          174,
+          200
+        ]
+      ]
+    }
+  }
+}
