@@ -1,0 +1,737 @@
+{
+  "dataset_sha256": "16320c9c1ec72448db59aa0a26a0b95401046bef5d02fd3aeb906448e3055e91",
+  "random_state": 42,
+  "split_sizes": {
+    "train": 4225,
+    "validation": 1409,
+    "test": 1409
+  },
+  "evaluation_split": "validation",
+  "test_evaluated": false,
+  "positive_class": "Churn=Yes",
+  "classification_threshold": 0.5,
+  "feature_columns": [
+    "tenure",
+    "MonthlyCharges",
+    "TotalCharges",
+    "gender",
+    "SeniorCitizen",
+    "Partner",
+    "Dependents",
+    "PhoneService",
+    "MultipleLines",
+    "InternetService",
+    "OnlineSecurity",
+    "OnlineBackup",
+    "DeviceProtection",
+    "TechSupport",
+    "StreamingTV",
+    "StreamingMovies",
+    "Contract",
+    "PaperlessBilling",
+    "PaymentMethod"
+  ],
+  "excluded_columns": [
+    "customerID",
+    "Churn"
+  ],
+  "versions": {
+    "pandas": "3.0.6",
+    "numpy": "2.5.3",
+    "scikit-learn": "1.9.1",
+    "joblib": "1.6.0"
+  },
+  "train_profile": {
+    "count": 4225,
+    "positives": 1121,
+    "churn_rate": 0.26532544378698225,
+    "numeric_missing_counts": {
+      "tenure": 0,
+      "MonthlyCharges": 0,
+      "TotalCharges": 7
+    },
+    "total_charges": {
+      "missing_count": 7,
+      "missing_with_zero_tenure": 7,
+      "missing_other_or_unknown_tenure": 0,
+      "observed_median": 1385.3
+    },
+    "segments": {
+      "Contract": {
+        "Month-to-month": {
+          "count": 2326,
+          "positives": 1002,
+          "churn_rate": 0.4307824591573517
+        },
+        "One year": {
+          "count": 865,
+          "positives": 93,
+          "churn_rate": 0.10751445086705202
+        },
+        "Two year": {
+          "count": 1034,
+          "positives": 26,
+          "churn_rate": 0.025145067698259187
+        }
+      },
+      "tenure_group": {
+        "0–12": {
+          "count": 1318,
+          "positives": 623,
+          "churn_rate": 0.47268588770864944
+        },
+        "13–24": {
+          "count": 629,
+          "positives": 184,
+          "churn_rate": 0.29252782193958665
+        },
+        "25–48": {
+          "count": 940,
+          "positives": 186,
+          "churn_rate": 0.19787234042553192
+        },
+        "49+": {
+          "count": 1338,
+          "positives": 128,
+          "churn_rate": 0.09566517189835576
+        }
+      }
+    }
+  },
+  "validation_total_charges": {
+    "missing_count": 1,
+    "missing_with_zero_tenure": 1,
+    "missing_other_or_unknown_tenure": 0
+  },
+  "hypothesis": "Missing TotalCharges with tenure=0 can be imputed with zero.",
+  "variants": {
+    "median": "Unchanged baseline preprocessing and model settings.",
+    "zero_for_new_customers": "Fill only missing TotalCharges when tenure=0 with zero; otherwise use the unchanged baseline pipeline."
+  },
+  "experiments": {
+    "median": {
+      "logistic_regression": {
+        "metrics": {
+          "roc_auc": 0.836005838435506,
+          "average_precision": 0.6423693762805338,
+          "accuracy": 0.8026969481902059,
+          "precision": 0.6578947368421053,
+          "recall": 0.5347593582887701,
+          "f1": 0.5899705014749262,
+          "confusion_matrix": [
+            [
+              931,
+              104
+            ],
+            [
+              174,
+              200
+            ]
+          ]
+        },
+        "segments": {
+          "Contract": {
+            "Month-to-month": {
+              "count": 776,
+              "positives": 324,
+              "churn_rate": 0.4175257731958763,
+              "tp": 200,
+              "fp": 103,
+              "fn": 124,
+              "tn": 349,
+              "precision": 0.6600660066006601,
+              "recall": 0.6172839506172839
+            },
+            "One year": {
+              "count": 308,
+              "positives": 37,
+              "churn_rate": 0.12012987012987013,
+              "tp": 0,
+              "fp": 1,
+              "fn": 37,
+              "tn": 270,
+              "precision": 0.0,
+              "recall": 0.0
+            },
+            "Two year": {
+              "count": 325,
+              "positives": 13,
+              "churn_rate": 0.04,
+              "tp": 0,
+              "fp": 0,
+              "fn": 13,
+              "tn": 312,
+              "precision": null,
+              "recall": 0.0
+            }
+          },
+          "tenure_group": {
+            "0–12": {
+              "count": 419,
+              "positives": 199,
+              "churn_rate": 0.47494033412887826,
+              "tp": 130,
+              "fp": 59,
+              "fn": 69,
+              "tn": 161,
+              "precision": 0.6878306878306878,
+              "recall": 0.6532663316582915
+            },
+            "13–24": {
+              "count": 189,
+              "positives": 50,
+              "churn_rate": 0.26455026455026454,
+              "tp": 31,
+              "fp": 25,
+              "fn": 19,
+              "tn": 114,
+              "precision": 0.5535714285714286,
+              "recall": 0.62
+            },
+            "25–48": {
+              "count": 350,
+              "positives": 75,
+              "churn_rate": 0.21428571428571427,
+              "tp": 35,
+              "fp": 18,
+              "fn": 40,
+              "tn": 257,
+              "precision": 0.660377358490566,
+              "recall": 0.4666666666666667
+            },
+            "49+": {
+              "count": 451,
+              "positives": 50,
+              "churn_rate": 0.11086474501108648,
+              "tp": 4,
+              "fp": 2,
+              "fn": 46,
+              "tn": 399,
+              "precision": 0.6666666666666666,
+              "recall": 0.08
+            }
+          }
+        }
+      },
+      "random_forest": {
+        "metrics": {
+          "roc_auc": 0.8384316308868739,
+          "average_precision": 0.6401842953838941,
+          "accuracy": 0.8005677785663591,
+          "precision": 0.6754716981132075,
+          "recall": 0.4786096256684492,
+          "f1": 0.5602503912363067,
+          "confusion_matrix": [
+            [
+              949,
+              86
+            ],
+            [
+              195,
+              179
+            ]
+          ]
+        },
+        "segments": {
+          "Contract": {
+            "Month-to-month": {
+              "count": 776,
+              "positives": 324,
+              "churn_rate": 0.4175257731958763,
+              "tp": 179,
+              "fp": 86,
+              "fn": 145,
+              "tn": 366,
+              "precision": 0.6754716981132075,
+              "recall": 0.5524691358024691
+            },
+            "One year": {
+              "count": 308,
+              "positives": 37,
+              "churn_rate": 0.12012987012987013,
+              "tp": 0,
+              "fp": 0,
+              "fn": 37,
+              "tn": 271,
+              "precision": null,
+              "recall": 0.0
+            },
+            "Two year": {
+              "count": 325,
+              "positives": 13,
+              "churn_rate": 0.04,
+              "tp": 0,
+              "fp": 0,
+              "fn": 13,
+              "tn": 312,
+              "precision": null,
+              "recall": 0.0
+            }
+          },
+          "tenure_group": {
+            "0–12": {
+              "count": 419,
+              "positives": 199,
+              "churn_rate": 0.47494033412887826,
+              "tp": 134,
+              "fp": 59,
+              "fn": 65,
+              "tn": 161,
+              "precision": 0.694300518134715,
+              "recall": 0.6733668341708543
+            },
+            "13–24": {
+              "count": 189,
+              "positives": 50,
+              "churn_rate": 0.26455026455026454,
+              "tp": 21,
+              "fp": 15,
+              "fn": 29,
+              "tn": 124,
+              "precision": 0.5833333333333334,
+              "recall": 0.42
+            },
+            "25–48": {
+              "count": 350,
+              "positives": 75,
+              "churn_rate": 0.21428571428571427,
+              "tp": 21,
+              "fp": 10,
+              "fn": 54,
+              "tn": 265,
+              "precision": 0.6774193548387096,
+              "recall": 0.28
+            },
+            "49+": {
+              "count": 451,
+              "positives": 50,
+              "churn_rate": 0.11086474501108648,
+              "tp": 3,
+              "fp": 2,
+              "fn": 47,
+              "tn": 399,
+              "precision": 0.6,
+              "recall": 0.06
+            }
+          }
+        }
+      },
+      "gradient_boosting": {
+        "metrics": {
+          "roc_auc": 0.8391394766075072,
+          "average_precision": 0.6450817323097398,
+          "accuracy": 0.8041163946061036,
+          "precision": 0.675,
+          "recall": 0.5053475935828877,
+          "f1": 0.5779816513761468,
+          "confusion_matrix": [
+            [
+              944,
+              91
+            ],
+            [
+              185,
+              189
+            ]
+          ]
+        },
+        "segments": {
+          "Contract": {
+            "Month-to-month": {
+              "count": 776,
+              "positives": 324,
+              "churn_rate": 0.4175257731958763,
+              "tp": 189,
+              "fp": 91,
+              "fn": 135,
+              "tn": 361,
+              "precision": 0.675,
+              "recall": 0.5833333333333334
+            },
+            "One year": {
+              "count": 308,
+              "positives": 37,
+              "churn_rate": 0.12012987012987013,
+              "tp": 0,
+              "fp": 0,
+              "fn": 37,
+              "tn": 271,
+              "precision": null,
+              "recall": 0.0
+            },
+            "Two year": {
+              "count": 325,
+              "positives": 13,
+              "churn_rate": 0.04,
+              "tp": 0,
+              "fp": 0,
+              "fn": 13,
+              "tn": 312,
+              "precision": null,
+              "recall": 0.0
+            }
+          },
+          "tenure_group": {
+            "0–12": {
+              "count": 419,
+              "positives": 199,
+              "churn_rate": 0.47494033412887826,
+              "tp": 140,
+              "fp": 62,
+              "fn": 59,
+              "tn": 158,
+              "precision": 0.693069306930693,
+              "recall": 0.7035175879396985
+            },
+            "13–24": {
+              "count": 189,
+              "positives": 50,
+              "churn_rate": 0.26455026455026454,
+              "tp": 23,
+              "fp": 17,
+              "fn": 27,
+              "tn": 122,
+              "precision": 0.575,
+              "recall": 0.46
+            },
+            "25–48": {
+              "count": 350,
+              "positives": 75,
+              "churn_rate": 0.21428571428571427,
+              "tp": 22,
+              "fp": 8,
+              "fn": 53,
+              "tn": 267,
+              "precision": 0.7333333333333333,
+              "recall": 0.29333333333333333
+            },
+            "49+": {
+              "count": 451,
+              "positives": 50,
+              "churn_rate": 0.11086474501108648,
+              "tp": 4,
+              "fp": 4,
+              "fn": 46,
+              "tn": 397,
+              "precision": 0.5,
+              "recall": 0.08
+            }
+          }
+        }
+      }
+    },
+    "zero_for_new_customers": {
+      "logistic_regression": {
+        "metrics": {
+          "roc_auc": 0.8360471724921852,
+          "average_precision": 0.6423524387502734,
+          "accuracy": 0.8026969481902059,
+          "precision": 0.6578947368421053,
+          "recall": 0.5347593582887701,
+          "f1": 0.5899705014749262,
+          "confusion_matrix": [
+            [
+              931,
+              104
+            ],
+            [
+              174,
+              200
+            ]
+          ]
+        },
+        "segments": {
+          "Contract": {
+            "Month-to-month": {
+              "count": 776,
+              "positives": 324,
+              "churn_rate": 0.4175257731958763,
+              "tp": 200,
+              "fp": 103,
+              "fn": 124,
+              "tn": 349,
+              "precision": 0.6600660066006601,
+              "recall": 0.6172839506172839
+            },
+            "One year": {
+              "count": 308,
+              "positives": 37,
+              "churn_rate": 0.12012987012987013,
+              "tp": 0,
+              "fp": 1,
+              "fn": 37,
+              "tn": 270,
+              "precision": 0.0,
+              "recall": 0.0
+            },
+            "Two year": {
+              "count": 325,
+              "positives": 13,
+              "churn_rate": 0.04,
+              "tp": 0,
+              "fp": 0,
+              "fn": 13,
+              "tn": 312,
+              "precision": null,
+              "recall": 0.0
+            }
+          },
+          "tenure_group": {
+            "0–12": {
+              "count": 419,
+              "positives": 199,
+              "churn_rate": 0.47494033412887826,
+              "tp": 130,
+              "fp": 59,
+              "fn": 69,
+              "tn": 161,
+              "precision": 0.6878306878306878,
+              "recall": 0.6532663316582915
+            },
+            "13–24": {
+              "count": 189,
+              "positives": 50,
+              "churn_rate": 0.26455026455026454,
+              "tp": 31,
+              "fp": 25,
+              "fn": 19,
+              "tn": 114,
+              "precision": 0.5535714285714286,
+              "recall": 0.62
+            },
+            "25–48": {
+              "count": 350,
+              "positives": 75,
+              "churn_rate": 0.21428571428571427,
+              "tp": 35,
+              "fp": 18,
+              "fn": 40,
+              "tn": 257,
+              "precision": 0.660377358490566,
+              "recall": 0.4666666666666667
+            },
+            "49+": {
+              "count": 451,
+              "positives": 50,
+              "churn_rate": 0.11086474501108648,
+              "tp": 4,
+              "fp": 2,
+              "fn": 46,
+              "tn": 399,
+              "precision": 0.6666666666666666,
+              "recall": 0.08
+            }
+          }
+        }
+      },
+      "random_forest": {
+        "metrics": {
+          "roc_auc": 0.8384807150791806,
+          "average_precision": 0.6410048541800398,
+          "accuracy": 0.7998580553584103,
+          "precision": 0.6729323308270677,
+          "recall": 0.4786096256684492,
+          "f1": 0.559375,
+          "confusion_matrix": [
+            [
+              948,
+              87
+            ],
+            [
+              195,
+              179
+            ]
+          ]
+        },
+        "segments": {
+          "Contract": {
+            "Month-to-month": {
+              "count": 776,
+              "positives": 324,
+              "churn_rate": 0.4175257731958763,
+              "tp": 179,
+              "fp": 87,
+              "fn": 145,
+              "tn": 365,
+              "precision": 0.6729323308270677,
+              "recall": 0.5524691358024691
+            },
+            "One year": {
+              "count": 308,
+              "positives": 37,
+              "churn_rate": 0.12012987012987013,
+              "tp": 0,
+              "fp": 0,
+              "fn": 37,
+              "tn": 271,
+              "precision": null,
+              "recall": 0.0
+            },
+            "Two year": {
+              "count": 325,
+              "positives": 13,
+              "churn_rate": 0.04,
+              "tp": 0,
+              "fp": 0,
+              "fn": 13,
+              "tn": 312,
+              "precision": null,
+              "recall": 0.0
+            }
+          },
+          "tenure_group": {
+            "0–12": {
+              "count": 419,
+              "positives": 199,
+              "churn_rate": 0.47494033412887826,
+              "tp": 132,
+              "fp": 59,
+              "fn": 67,
+              "tn": 161,
+              "precision": 0.6910994764397905,
+              "recall": 0.6633165829145728
+            },
+            "13–24": {
+              "count": 189,
+              "positives": 50,
+              "churn_rate": 0.26455026455026454,
+              "tp": 22,
+              "fp": 15,
+              "fn": 28,
+              "tn": 124,
+              "precision": 0.5945945945945946,
+              "recall": 0.44
+            },
+            "25–48": {
+              "count": 350,
+              "positives": 75,
+              "churn_rate": 0.21428571428571427,
+              "tp": 22,
+              "fp": 10,
+              "fn": 53,
+              "tn": 265,
+              "precision": 0.6875,
+              "recall": 0.29333333333333333
+            },
+            "49+": {
+              "count": 451,
+              "positives": 50,
+              "churn_rate": 0.11086474501108648,
+              "tp": 3,
+              "fp": 3,
+              "fn": 47,
+              "tn": 398,
+              "precision": 0.5,
+              "recall": 0.06
+            }
+          }
+        }
+      },
+      "gradient_boosting": {
+        "metrics": {
+          "roc_auc": 0.8395450670386732,
+          "average_precision": 0.6474981812543075,
+          "accuracy": 0.8019872249822569,
+          "precision": 0.6702508960573477,
+          "recall": 0.5,
+          "f1": 0.5727411944869831,
+          "confusion_matrix": [
+            [
+              943,
+              92
+            ],
+            [
+              187,
+              187
+            ]
+          ]
+        },
+        "segments": {
+          "Contract": {
+            "Month-to-month": {
+              "count": 776,
+              "positives": 324,
+              "churn_rate": 0.4175257731958763,
+              "tp": 187,
+              "fp": 92,
+              "fn": 137,
+              "tn": 360,
+              "precision": 0.6702508960573477,
+              "recall": 0.5771604938271605
+            },
+            "One year": {
+              "count": 308,
+              "positives": 37,
+              "churn_rate": 0.12012987012987013,
+              "tp": 0,
+              "fp": 0,
+              "fn": 37,
+              "tn": 271,
+              "precision": null,
+              "recall": 0.0
+            },
+            "Two year": {
+              "count": 325,
+              "positives": 13,
+              "churn_rate": 0.04,
+              "tp": 0,
+              "fp": 0,
+              "fn": 13,
+              "tn": 312,
+              "precision": null,
+              "recall": 0.0
+            }
+          },
+          "tenure_group": {
+            "0–12": {
+              "count": 419,
+              "positives": 199,
+              "churn_rate": 0.47494033412887826,
+              "tp": 138,
+              "fp": 62,
+              "fn": 61,
+              "tn": 158,
+              "precision": 0.69,
+              "recall": 0.6934673366834171
+            },
+            "13–24": {
+              "count": 189,
+              "positives": 50,
+              "churn_rate": 0.26455026455026454,
+              "tp": 23,
+              "fp": 17,
+              "fn": 27,
+              "tn": 122,
+              "precision": 0.575,
+              "recall": 0.46
+            },
+            "25–48": {
+              "count": 350,
+              "positives": 75,
+              "churn_rate": 0.21428571428571427,
+              "tp": 22,
+              "fp": 9,
+              "fn": 53,
+              "tn": 266,
+              "precision": 0.7096774193548387,
+              "recall": 0.29333333333333333
+            },
+            "49+": {
+              "count": 451,
+              "positives": 50,
+              "churn_rate": 0.11086474501108648,
+              "tp": 4,
+              "fp": 4,
+              "fn": 46,
+              "tn": 397,
+              "precision": 0.5,
+              "recall": 0.08
+            }
+          }
+        }
+      }
+    }
+  },
+  "final_model_selected": false,
+  "production_preprocessing_changed": false
+}
