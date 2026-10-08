@@ -142,7 +142,7 @@ def write_json(path, contents):
 def save_split_manifest(path, manifest):
     if path.exists():
         if json.loads(path.read_text()) != manifest:
-            raise ValueError("Данные или разбиение отличаются от artifacts/splits.json. "
+            raise ValueError(f"Данные или разбиение отличаются от {path.name}. "
                              "Нельзя незаметно менять выборку для сравнения моделей.")
         return
     write_json(path, manifest)
