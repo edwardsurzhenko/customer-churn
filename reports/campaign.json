@@ -1,0 +1,656 @@
+{
+  "dataset_sha256": "16320c9c1ec72448db59aa0a26a0b95401046bef5d02fd3aeb906448e3055e91",
+  "random_state": 42,
+  "tuning_report_sha256": "ebfa1a05e3be8c70cddf7d28e199da3a1c2e9d28bf6ad41f77e586e7eabf3285",
+  "split_sizes": {
+    "train": 4225,
+    "validation": 1409,
+    "test": 1409
+  },
+  "training_split": "train",
+  "evaluation_split": "validation",
+  "test_evaluated": false,
+  "final_model_selected": false,
+  "campaign_size_selected": false,
+  "k_values": [
+    50,
+    100,
+    200,
+    500
+  ],
+  "validation_positives": 374,
+  "validation_prevalence": 0.2654364797728886,
+  "positive_class": "Churn=Yes",
+  "feature_columns": [
+    "tenure",
+    "MonthlyCharges",
+    "TotalCharges",
+    "gender",
+    "SeniorCitizen",
+    "Partner",
+    "Dependents",
+    "PhoneService",
+    "MultipleLines",
+    "InternetService",
+    "OnlineSecurity",
+    "OnlineBackup",
+    "DeviceProtection",
+    "TechSupport",
+    "StreamingTV",
+    "StreamingMovies",
+    "Contract",
+    "PaperlessBilling",
+    "PaymentMethod"
+  ],
+  "excluded_columns": [
+    "customerID",
+    "Churn"
+  ],
+  "ranking_rule": "risk_probability descending, customerID ascending for exact ties",
+  "ranking_uses_target": false,
+  "probability_threshold_for_top_k": null,
+  "global_classification_threshold": 0.5,
+  "models": {
+    "logistic_regression": {
+      "baseline": {
+        "parameters": {
+          "C": 1.0
+        },
+        "global_metrics": {
+          "roc_auc": 0.836005838435506,
+          "average_precision": 0.6423693762805338,
+          "accuracy": 0.8026969481902059,
+          "precision": 0.6578947368421053,
+          "recall": 0.5347593582887701,
+          "f1": 0.5899705014749262,
+          "confusion_matrix": [
+            [
+              931,
+              104
+            ],
+            [
+              174,
+              200
+            ]
+          ]
+        },
+        "top_k": [
+          {
+            "k": 50,
+            "population_fraction": 0.035486160397444996,
+            "true_positives": 38,
+            "false_positives": 12,
+            "precision_at_k": 0.76,
+            "recall_at_k": 0.10160427807486631,
+            "lift_at_k": 2.8632085561497327,
+            "cutoff_probability": 0.7376143810976536,
+            "cutoff_tie_size": 1,
+            "selected_from_cutoff_tie": 1,
+            "true_positive_bounds_within_cutoff_tie": [
+              38,
+              38
+            ]
+          },
+          {
+            "k": 100,
+            "population_fraction": 0.07097232079488999,
+            "true_positives": 76,
+            "false_positives": 24,
+            "precision_at_k": 0.76,
+            "recall_at_k": 0.20320855614973263,
+            "lift_at_k": 2.8632085561497327,
+            "cutoff_probability": 0.6897256397219357,
+            "cutoff_tie_size": 1,
+            "selected_from_cutoff_tie": 1,
+            "true_positive_bounds_within_cutoff_tie": [
+              76,
+              76
+            ]
+          },
+          {
+            "k": 200,
+            "population_fraction": 0.14194464158977999,
+            "true_positives": 142,
+            "false_positives": 58,
+            "precision_at_k": 0.71,
+            "recall_at_k": 0.37967914438502676,
+            "lift_at_k": 2.674839572192513,
+            "cutoff_probability": 0.5999390027201019,
+            "cutoff_tie_size": 1,
+            "selected_from_cutoff_tie": 1,
+            "true_positive_bounds_within_cutoff_tie": [
+              142,
+              142
+            ]
+          },
+          {
+            "k": 500,
+            "population_fraction": 0.35486160397445,
+            "true_positives": 273,
+            "false_positives": 227,
+            "precision_at_k": 0.546,
+            "recall_at_k": 0.7299465240641712,
+            "lift_at_k": 2.0569893048128343,
+            "cutoff_probability": 0.31140323814214743,
+            "cutoff_tie_size": 1,
+            "selected_from_cutoff_tie": 1,
+            "true_positive_bounds_within_cutoff_tie": [
+              273,
+              273
+            ]
+          }
+        ]
+      },
+      "cv_selected": {
+        "parameters": {
+          "C": 10.0
+        },
+        "global_metrics": {
+          "roc_auc": 0.8365250975225399,
+          "average_precision": 0.6427882740129571,
+          "accuracy": 0.8041163946061036,
+          "precision": 0.6611842105263158,
+          "recall": 0.5374331550802139,
+          "f1": 0.5929203539823009,
+          "confusion_matrix": [
+            [
+              932,
+              103
+            ],
+            [
+              173,
+              201
+            ]
+          ]
+        },
+        "top_k": [
+          {
+            "k": 50,
+            "population_fraction": 0.035486160397444996,
+            "true_positives": 36,
+            "false_positives": 14,
+            "precision_at_k": 0.72,
+            "recall_at_k": 0.0962566844919786,
+            "lift_at_k": 2.712513368983957,
+            "cutoff_probability": 0.7372702774810905,
+            "cutoff_tie_size": 1,
+            "selected_from_cutoff_tie": 1,
+            "true_positive_bounds_within_cutoff_tie": [
+              36,
+              36
+            ]
+          },
+          {
+            "k": 100,
+            "population_fraction": 0.07097232079488999,
+            "true_positives": 78,
+            "false_positives": 22,
+            "precision_at_k": 0.78,
+            "recall_at_k": 0.20855614973262032,
+            "lift_at_k": 2.9385561497326202,
+            "cutoff_probability": 0.6884296414549841,
+            "cutoff_tie_size": 1,
+            "selected_from_cutoff_tie": 1,
+            "true_positive_bounds_within_cutoff_tie": [
+              78,
+              78
+            ]
+          },
+          {
+            "k": 200,
+            "population_fraction": 0.14194464158977999,
+            "true_positives": 142,
+            "false_positives": 58,
+            "precision_at_k": 0.71,
+            "recall_at_k": 0.37967914438502676,
+            "lift_at_k": 2.674839572192513,
+            "cutoff_probability": 0.6029761846993338,
+            "cutoff_tie_size": 1,
+            "selected_from_cutoff_tie": 1,
+            "true_positive_bounds_within_cutoff_tie": [
+              142,
+              142
+            ]
+          },
+          {
+            "k": 500,
+            "population_fraction": 0.35486160397445,
+            "true_positives": 274,
+            "false_positives": 226,
+            "precision_at_k": 0.548,
+            "recall_at_k": 0.732620320855615,
+            "lift_at_k": 2.064524064171123,
+            "cutoff_probability": 0.31843238209541674,
+            "cutoff_tie_size": 1,
+            "selected_from_cutoff_tie": 1,
+            "true_positive_bounds_within_cutoff_tie": [
+              274,
+              274
+            ]
+          }
+        ]
+      }
+    },
+    "random_forest": {
+      "baseline": {
+        "parameters": {
+          "max_depth": 8,
+          "min_samples_leaf": 5
+        },
+        "global_metrics": {
+          "roc_auc": 0.8384316308868739,
+          "average_precision": 0.6401842953838941,
+          "accuracy": 0.8005677785663591,
+          "precision": 0.6754716981132075,
+          "recall": 0.4786096256684492,
+          "f1": 0.5602503912363067,
+          "confusion_matrix": [
+            [
+              949,
+              86
+            ],
+            [
+              195,
+              179
+            ]
+          ]
+        },
+        "top_k": [
+          {
+            "k": 50,
+            "population_fraction": 0.035486160397444996,
+            "true_positives": 42,
+            "false_positives": 8,
+            "precision_at_k": 0.84,
+            "recall_at_k": 0.11229946524064172,
+            "lift_at_k": 3.164598930481283,
+            "cutoff_probability": 0.7191130586237539,
+            "cutoff_tie_size": 1,
+            "selected_from_cutoff_tie": 1,
+            "true_positive_bounds_within_cutoff_tie": [
+              42,
+              42
+            ]
+          },
+          {
+            "k": 100,
+            "population_fraction": 0.07097232079488999,
+            "true_positives": 77,
+            "false_positives": 23,
+            "precision_at_k": 0.77,
+            "recall_at_k": 0.20588235294117646,
+            "lift_at_k": 2.9008823529411765,
+            "cutoff_probability": 0.6573386323545783,
+            "cutoff_tie_size": 1,
+            "selected_from_cutoff_tie": 1,
+            "true_positive_bounds_within_cutoff_tie": [
+              77,
+              77
+            ]
+          },
+          {
+            "k": 200,
+            "population_fraction": 0.14194464158977999,
+            "true_positives": 138,
+            "false_positives": 62,
+            "precision_at_k": 0.69,
+            "recall_at_k": 0.3689839572192513,
+            "lift_at_k": 2.5994919786096253,
+            "cutoff_probability": 0.5451997982779682,
+            "cutoff_tie_size": 1,
+            "selected_from_cutoff_tie": 1,
+            "true_positive_bounds_within_cutoff_tie": [
+              138,
+              138
+            ]
+          },
+          {
+            "k": 500,
+            "population_fraction": 0.35486160397445,
+            "true_positives": 275,
+            "false_positives": 225,
+            "precision_at_k": 0.55,
+            "recall_at_k": 0.7352941176470589,
+            "lift_at_k": 2.072058823529412,
+            "cutoff_probability": 0.34105761748294106,
+            "cutoff_tie_size": 1,
+            "selected_from_cutoff_tie": 1,
+            "true_positive_bounds_within_cutoff_tie": [
+              275,
+              275
+            ]
+          }
+        ]
+      },
+      "cv_selected": {
+        "parameters": {
+          "max_depth": 8,
+          "min_samples_leaf": 10
+        },
+        "global_metrics": {
+          "roc_auc": 0.8388811387532614,
+          "average_precision": 0.6412788740950888,
+          "accuracy": 0.794180269694819,
+          "precision": 0.6615384615384615,
+          "recall": 0.45989304812834225,
+          "f1": 0.5425867507886435,
+          "confusion_matrix": [
+            [
+              947,
+              88
+            ],
+            [
+              202,
+              172
+            ]
+          ]
+        },
+        "top_k": [
+          {
+            "k": 50,
+            "population_fraction": 0.035486160397444996,
+            "true_positives": 43,
+            "false_positives": 7,
+            "precision_at_k": 0.86,
+            "recall_at_k": 0.11497326203208556,
+            "lift_at_k": 3.239946524064171,
+            "cutoff_probability": 0.7192681231244229,
+            "cutoff_tie_size": 1,
+            "selected_from_cutoff_tie": 1,
+            "true_positive_bounds_within_cutoff_tie": [
+              43,
+              43
+            ]
+          },
+          {
+            "k": 100,
+            "population_fraction": 0.07097232079488999,
+            "true_positives": 78,
+            "false_positives": 22,
+            "precision_at_k": 0.78,
+            "recall_at_k": 0.20855614973262032,
+            "lift_at_k": 2.9385561497326202,
+            "cutoff_probability": 0.6471196742902646,
+            "cutoff_tie_size": 1,
+            "selected_from_cutoff_tie": 1,
+            "true_positive_bounds_within_cutoff_tie": [
+              78,
+              78
+            ]
+          },
+          {
+            "k": 200,
+            "population_fraction": 0.14194464158977999,
+            "true_positives": 140,
+            "false_positives": 60,
+            "precision_at_k": 0.7,
+            "recall_at_k": 0.37433155080213903,
+            "lift_at_k": 2.637165775401069,
+            "cutoff_probability": 0.5420578549399031,
+            "cutoff_tie_size": 1,
+            "selected_from_cutoff_tie": 1,
+            "true_positive_bounds_within_cutoff_tie": [
+              140,
+              140
+            ]
+          },
+          {
+            "k": 500,
+            "population_fraction": 0.35486160397445,
+            "true_positives": 273,
+            "false_positives": 227,
+            "precision_at_k": 0.546,
+            "recall_at_k": 0.7299465240641712,
+            "lift_at_k": 2.0569893048128343,
+            "cutoff_probability": 0.3356927527650653,
+            "cutoff_tie_size": 1,
+            "selected_from_cutoff_tie": 1,
+            "true_positive_bounds_within_cutoff_tie": [
+              273,
+              273
+            ]
+          }
+        ]
+      }
+    },
+    "gradient_boosting": {
+      "baseline": {
+        "parameters": {
+          "max_depth": 2,
+          "n_estimators": 150
+        },
+        "global_metrics": {
+          "roc_auc": 0.8391394766075072,
+          "average_precision": 0.6450817323097398,
+          "accuracy": 0.8041163946061036,
+          "precision": 0.675,
+          "recall": 0.5053475935828877,
+          "f1": 0.5779816513761468,
+          "confusion_matrix": [
+            [
+              944,
+              91
+            ],
+            [
+              185,
+              189
+            ]
+          ]
+        },
+        "top_k": [
+          {
+            "k": 50,
+            "population_fraction": 0.035486160397444996,
+            "true_positives": 43,
+            "false_positives": 7,
+            "precision_at_k": 0.86,
+            "recall_at_k": 0.11497326203208556,
+            "lift_at_k": 3.239946524064171,
+            "cutoff_probability": 0.7566061810349926,
+            "cutoff_tie_size": 1,
+            "selected_from_cutoff_tie": 1,
+            "true_positive_bounds_within_cutoff_tie": [
+              43,
+              43
+            ]
+          },
+          {
+            "k": 100,
+            "population_fraction": 0.07097232079488999,
+            "true_positives": 76,
+            "false_positives": 24,
+            "precision_at_k": 0.76,
+            "recall_at_k": 0.20320855614973263,
+            "lift_at_k": 2.8632085561497327,
+            "cutoff_probability": 0.7052043654975131,
+            "cutoff_tie_size": 1,
+            "selected_from_cutoff_tie": 1,
+            "true_positive_bounds_within_cutoff_tie": [
+              76,
+              76
+            ]
+          },
+          {
+            "k": 200,
+            "population_fraction": 0.14194464158977999,
+            "true_positives": 142,
+            "false_positives": 58,
+            "precision_at_k": 0.71,
+            "recall_at_k": 0.37967914438502676,
+            "lift_at_k": 2.674839572192513,
+            "cutoff_probability": 0.5749970800739209,
+            "cutoff_tie_size": 1,
+            "selected_from_cutoff_tie": 1,
+            "true_positive_bounds_within_cutoff_tie": [
+              142,
+              142
+            ]
+          },
+          {
+            "k": 500,
+            "population_fraction": 0.35486160397445,
+            "true_positives": 275,
+            "false_positives": 225,
+            "precision_at_k": 0.55,
+            "recall_at_k": 0.7352941176470589,
+            "lift_at_k": 2.072058823529412,
+            "cutoff_probability": 0.31459069423025793,
+            "cutoff_tie_size": 1,
+            "selected_from_cutoff_tie": 1,
+            "true_positive_bounds_within_cutoff_tie": [
+              275,
+              275
+            ]
+          }
+        ]
+      },
+      "cv_selected": {
+        "parameters": {
+          "max_depth": 2,
+          "n_estimators": 150
+        },
+        "global_metrics": {
+          "roc_auc": 0.8391394766075072,
+          "average_precision": 0.6450817323097398,
+          "accuracy": 0.8041163946061036,
+          "precision": 0.675,
+          "recall": 0.5053475935828877,
+          "f1": 0.5779816513761468,
+          "confusion_matrix": [
+            [
+              944,
+              91
+            ],
+            [
+              185,
+              189
+            ]
+          ]
+        },
+        "top_k": [
+          {
+            "k": 50,
+            "population_fraction": 0.035486160397444996,
+            "true_positives": 43,
+            "false_positives": 7,
+            "precision_at_k": 0.86,
+            "recall_at_k": 0.11497326203208556,
+            "lift_at_k": 3.239946524064171,
+            "cutoff_probability": 0.7566061810349926,
+            "cutoff_tie_size": 1,
+            "selected_from_cutoff_tie": 1,
+            "true_positive_bounds_within_cutoff_tie": [
+              43,
+              43
+            ]
+          },
+          {
+            "k": 100,
+            "population_fraction": 0.07097232079488999,
+            "true_positives": 76,
+            "false_positives": 24,
+            "precision_at_k": 0.76,
+            "recall_at_k": 0.20320855614973263,
+            "lift_at_k": 2.8632085561497327,
+            "cutoff_probability": 0.7052043654975131,
+            "cutoff_tie_size": 1,
+            "selected_from_cutoff_tie": 1,
+            "true_positive_bounds_within_cutoff_tie": [
+              76,
+              76
+            ]
+          },
+          {
+            "k": 200,
+            "population_fraction": 0.14194464158977999,
+            "true_positives": 142,
+            "false_positives": 58,
+            "precision_at_k": 0.71,
+            "recall_at_k": 0.37967914438502676,
+            "lift_at_k": 2.674839572192513,
+            "cutoff_probability": 0.5749970800739209,
+            "cutoff_tie_size": 1,
+            "selected_from_cutoff_tie": 1,
+            "true_positive_bounds_within_cutoff_tie": [
+              142,
+              142
+            ]
+          },
+          {
+            "k": 500,
+            "population_fraction": 0.35486160397445,
+            "true_positives": 275,
+            "false_positives": 225,
+            "precision_at_k": 0.55,
+            "recall_at_k": 0.7352941176470589,
+            "lift_at_k": 2.072058823529412,
+            "cutoff_probability": 0.31459069423025793,
+            "cutoff_tie_size": 1,
+            "selected_from_cutoff_tie": 1,
+            "true_positive_bounds_within_cutoff_tie": [
+              275,
+              275
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "dummy_prior": {
+    "global_metrics": {
+      "roc_auc": 0.5,
+      "average_precision": 0.2654364797728886,
+      "accuracy": 0.7345635202271115,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "confusion_matrix": [
+        [
+          1035,
+          0
+        ],
+        [
+          374,
+          0
+        ]
+      ]
+    },
+    "ranking": "All scores equal; use the random-selection expectation as reference."
+  },
+  "random_selection_reference": [
+    {
+      "k": 50,
+      "expected_true_positives": 13.27182398864443,
+      "expected_precision_at_k": 0.2654364797728886,
+      "expected_recall_at_k": 0.035486160397444996,
+      "expected_lift_at_k": 1.0
+    },
+    {
+      "k": 100,
+      "expected_true_positives": 26.54364797728886,
+      "expected_precision_at_k": 0.2654364797728886,
+      "expected_recall_at_k": 0.07097232079488999,
+      "expected_lift_at_k": 1.0
+    },
+    {
+      "k": 200,
+      "expected_true_positives": 53.08729595457772,
+      "expected_precision_at_k": 0.2654364797728886,
+      "expected_recall_at_k": 0.14194464158977999,
+      "expected_lift_at_k": 1.0
+    },
+    {
+      "k": 500,
+      "expected_true_positives": 132.7182398864443,
+      "expected_precision_at_k": 0.2654364797728886,
+      "expected_recall_at_k": 0.35486160397445,
+      "expected_lift_at_k": 1.0
+    }
+  ],
+  "versions": {
+    "pandas": "3.0.6",
+    "numpy": "2.5.3",
+    "scikit-learn": "1.9.1",
+    "joblib": "1.6.0"
+  }
+}
