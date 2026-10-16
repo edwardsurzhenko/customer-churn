@@ -1,10 +1,14 @@
 """Проверки границ CV и обучения preprocessing внутри каждого фолда."""
 
 import unittest
+from collections import Counter
+from unittest.mock import patch
 
 import numpy as np
 import pandas as pd
+from sklearn.pipeline import Pipeline
 
+from scripts.search_models import search_candidates, select_candidate
 from scripts.train_baseline import CATEGORICAL_FEATURES, FEATURES, NUMERIC_FEATURES, split_data
 from scripts.tune_models import build_candidate, make_cv_splits, run_cv
 
@@ -21,6 +25,52 @@ def example_data(size=100):
 
 
 class TuningTests(unittest.TestCase):
+    def test_random_search_fits_only_cv_training_rows_and_reports_held_out_scores(self):
+        frame = split_data(example_data(60))["train"]
+        folds = make_cv_splits(frame["Churn"])
+        fitted_indices = []
+        original_fit = Pipeline.fit
+
+        def checked_fit(model, features, target, **kwargs):
+            result = original_fit(model, features, target, **kwargs)
+            if "classifier" in model.named_steps:
+                fitted_indices.append(tuple(features.index))
+                preprocessing = model.named_steps["preprocessing"]
+                numeric = preprocessing.named_transformers_["numeric"]
+                expected = features[NUMERIC_FEATURES].median().to_numpy()
+                np.testing.assert_allclose(numeric.named_steps["imputer"].statistics_, expected)
+                filled = features[NUMERIC_FEATURES].fillna(dict(zip(NUMERIC_FEATURES, expected)))
+                np.testing.assert_allclose(numeric.named_steps["scaler"].mean_, filled.mean())
+                encoder = preprocessing.named_transformers_["categorical"].named_steps["encoder"]
+                learned = set(encoder.categories_[CATEGORICAL_FEATURES.index("Contract")])
+                self.assertEqual(learned, set(features["Contract"]))
+            return result
+
+        with patch.object(Pipeline, "fit", checked_fit):
+            candidates = search_candidates(
+                "logistic_regression", frame[FEATURES], frame["Churn"], folds,
+                distributions={"classifier__C": [0.1, 10.0]}, n_iter=2, n_jobs=1, verbose=0,
+            )
+        # Ровно 2 × 10 fit, без дополнительного refit и без внешних validation/test.
+        expected_indices = [tuple(frame.iloc[fit].index) for fit, _ in folds] * 2
+        self.assertEqual(Counter(fitted_indices), Counter(expected_indices))
+        for candidate in candidates:
+            manual = run_cv(build_candidate("logistic_regression", candidate["parameters"]),
+                            frame[FEATURES], frame["Churn"], folds)
+            for metric in ("average_precision", "roc_auc"):
+                np.testing.assert_allclose(candidate[metric]["fold_scores"], manual[f"test_{metric}"])
+
+    def test_search_keeps_previous_winner_unless_new_cv_score_is_better(self):
+        def candidate(score):
+            return {"average_precision": {"mean": score}}
+
+        self.assertEqual(select_candidate([candidate(0.7), candidate(0.69)]), 0)
+        self.assertEqual(select_candidate([candidate(0.7), candidate(0.7)]), 0)
+        self.assertEqual(select_candidate([candidate(0.7), candidate(0.71)]), 1)
+        for invalid in ([], [candidate(float("nan"))], [candidate(float("inf"))]):
+            with self.assertRaises(ValueError):
+                select_candidate(invalid)
+
     def test_cv_folds_cover_train_only_and_are_repeatable(self):
         parts = split_data(example_data())
         train = parts["train"]
