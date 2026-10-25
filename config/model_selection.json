@@ -1,0 +1,223 @@
+{
+  "protocol_version": 1,
+  "selection_date": "2026-10-25",
+  "selected_family": "gradient_boosting",
+  "models": {
+    "gradient_boosting": {
+      "role": "selected_for_service",
+      "parameters": {
+        "learning_rate": 0.061721159481070736,
+        "max_depth": 1,
+        "min_samples_leaf": 5,
+        "n_estimators": 300,
+        "subsample": 1.0
+      },
+      "classifier_parameters": {
+        "ccp_alpha": 0.0,
+        "criterion": "deprecated",
+        "init": null,
+        "learning_rate": 0.061721159481070736,
+        "loss": "log_loss",
+        "max_depth": 1,
+        "max_features": null,
+        "max_leaf_nodes": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 5,
+        "min_samples_split": 2,
+        "min_weight_fraction_leaf": 0.0,
+        "n_estimators": 300,
+        "n_iter_no_change": null,
+        "random_state": 42,
+        "subsample": 1.0,
+        "tol": 0.0001,
+        "validation_fraction": 0.1,
+        "verbose": 0,
+        "warm_start": false
+      }
+    },
+    "dummy_prior": {
+      "role": "reference_only",
+      "parameters": {},
+      "classifier_parameters": {
+        "constant": null,
+        "random_state": null,
+        "strategy": "prior"
+      }
+    },
+    "logistic_regression": {
+      "role": "reference_only",
+      "parameters": {
+        "C": 1.0
+      },
+      "classifier_parameters": {
+        "C": 1.0,
+        "class_weight": null,
+        "dual": false,
+        "fit_intercept": true,
+        "intercept_scaling": 1,
+        "l1_ratio": 0.0,
+        "max_iter": 2000,
+        "n_jobs": null,
+        "penalty": "deprecated",
+        "random_state": 42,
+        "solver": "lbfgs",
+        "tol": 0.0001,
+        "verbose": 0,
+        "warm_start": false
+      }
+    }
+  },
+  "selection_reason": "Highest validation AP among CV-selected families; also highest mean CV AP. Service supports user-chosen K, not only K=100.",
+  "source_commit": "d5ffd739c27ce9aee6295224db28ea2cc72e0f40",
+  "source_report": "reports/expanded_search.json",
+  "source_report_sha256": "c99fac3ea089f5d2785c6329add11872c30fd2c0e47cda3bcc35029db01ccaff",
+  "selection_evidence": {
+    "logistic_regression": {
+      "parameters": {
+        "C": 4.676478725076045,
+        "class_weight": null
+      },
+      "cv_mean_average_precision": 0.6657829718486681,
+      "validation_average_precision": 0.6432311382371548,
+      "validation_roc_auc": 0.8364295125164689,
+      "validation_true_positives_at_k": {
+        "50": 37,
+        "100": 77,
+        "200": 143,
+        "500": 274
+      }
+    },
+    "random_forest": {
+      "parameters": {
+        "n_estimators": 200,
+        "min_samples_leaf": 20,
+        "max_features": 0.5,
+        "max_depth": 8,
+        "class_weight": null
+      },
+      "cv_mean_average_precision": 0.6738230228199875,
+      "validation_average_precision": 0.641945494171647,
+      "validation_roc_auc": 0.8380751246480147,
+      "validation_true_positives_at_k": {
+        "50": 44,
+        "100": 78,
+        "200": 140,
+        "500": 276
+      }
+    },
+    "gradient_boosting": {
+      "parameters": {
+        "learning_rate": 0.061721159481070736,
+        "max_depth": 1,
+        "min_samples_leaf": 5,
+        "n_estimators": 300,
+        "subsample": 1.0
+      },
+      "cv_mean_average_precision": 0.67896855875475,
+      "validation_average_precision": 0.6496711267902373,
+      "validation_roc_auc": 0.8396471104911003,
+      "validation_true_positives_at_k": {
+        "50": 45,
+        "100": 77,
+        "200": 141,
+        "500": 274
+      }
+    }
+  },
+  "test_used_for_selection": false,
+  "dataset_sha256": "16320c9c1ec72448db59aa0a26a0b95401046bef5d02fd3aeb906448e3055e91",
+  "random_state": 42,
+  "split_sizes": {
+    "train": 4225,
+    "validation": 1409,
+    "test": 1409
+  },
+  "feature_columns": [
+    "tenure",
+    "MonthlyCharges",
+    "TotalCharges",
+    "gender",
+    "SeniorCitizen",
+    "Partner",
+    "Dependents",
+    "PhoneService",
+    "MultipleLines",
+    "InternetService",
+    "OnlineSecurity",
+    "OnlineBackup",
+    "DeviceProtection",
+    "TechSupport",
+    "StreamingTV",
+    "StreamingMovies",
+    "Contract",
+    "PaperlessBilling",
+    "PaymentMethod"
+  ],
+  "excluded_columns": [
+    "customerID",
+    "Churn"
+  ],
+  "positive_class": "Churn=Yes",
+  "training_splits": [
+    "train",
+    "validation"
+  ],
+  "evaluation_split": "test",
+  "refit_on_test": false,
+  "preprocessing": {
+    "numeric_imputer": "median",
+    "categorical_imputer": "most_frequent",
+    "encoder": "OneHotEncoder(handle_unknown=ignore, sparse_output=False)",
+    "scale_numeric_for": [
+      "logistic_regression"
+    ],
+    "zero_tenure_rule": false
+  },
+  "preprocessing_source_sha256": "ab2d584486f4a64110595880cee30f421bc035e62199eaf86c5819a007f9bf7b",
+  "evaluation": {
+    "primary_metric": "average_precision",
+    "secondary_metric": "roc_auc",
+    "k_values": [
+      50,
+      100,
+      200,
+      500
+    ],
+    "diagnostic_classification_threshold": 0.5,
+    "error_segments": [
+      "Contract",
+      "tenure_group"
+    ],
+    "campaign_segment_k": 100,
+    "bootstrap": {
+      "samples": 1000,
+      "seed": 42,
+      "confidence_level": 0.95,
+      "method": "stratified percentile bootstrap of fixed test predictions",
+      "metrics": [
+        "average_precision",
+        "roc_auc"
+      ],
+      "paired_ap_reference": "logistic_regression",
+      "refit_models": false,
+      "class_counts_fixed": true
+    }
+  },
+  "service_policy": {
+    "selection": "top_k",
+    "k_source": "user",
+    "default_k": 100,
+    "default_k_is_demo_capacity": true,
+    "k_range": "1..number_of_uploaded_clients",
+    "ranking": "risk_probability descending, customerID ascending for exact ties",
+    "probability_threshold": null,
+    "requires_churn_column": false
+  },
+  "versions": {
+    "pandas": "3.0.6",
+    "numpy": "2.5.3",
+    "scikit-learn": "1.9.1",
+    "scipy": "1.18.1",
+    "joblib": "1.6.0"
+  }
+}
