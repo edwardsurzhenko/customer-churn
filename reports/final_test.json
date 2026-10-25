@@ -1,0 +1,537 @@
+{
+  "protocol_version": 1,
+  "selection_commit": "5232d2cfbc898ebc32b3a1b537fa4babf18f100c",
+  "selection_config_sha256": "0449deb599af729dd56d8da0572a24e166e719571fed1afac73f2e8fe63e9a64",
+  "dataset_sha256": "16320c9c1ec72448db59aa0a26a0b95401046bef5d02fd3aeb906448e3055e91",
+  "selected_family": "gradient_boosting",
+  "versions": {
+    "pandas": "3.0.6",
+    "numpy": "2.5.3",
+    "scikit-learn": "1.9.1",
+    "scipy": "1.18.1",
+    "joblib": "1.6.0"
+  },
+  "random_state": 42,
+  "split_sizes": {
+    "train": 4225,
+    "validation": 1409,
+    "test": 1409
+  },
+  "training_splits": [
+    "train",
+    "validation"
+  ],
+  "training_rows": 5634,
+  "training_positives": 1495,
+  "evaluation_split": "test",
+  "test_rows": 1409,
+  "test_positives": 374,
+  "test_prevalence": 0.2654364797728886,
+  "test_used_for_selection": false,
+  "refit_on_test": false,
+  "model_selection_changed_after_test": false,
+  "feature_columns": [
+    "tenure",
+    "MonthlyCharges",
+    "TotalCharges",
+    "gender",
+    "SeniorCitizen",
+    "Partner",
+    "Dependents",
+    "PhoneService",
+    "MultipleLines",
+    "InternetService",
+    "OnlineSecurity",
+    "OnlineBackup",
+    "DeviceProtection",
+    "TechSupport",
+    "StreamingTV",
+    "StreamingMovies",
+    "Contract",
+    "PaperlessBilling",
+    "PaymentMethod"
+  ],
+  "excluded_columns": [
+    "customerID",
+    "Churn"
+  ],
+  "evaluation_protocol": {
+    "primary_metric": "average_precision",
+    "secondary_metric": "roc_auc",
+    "k_values": [
+      50,
+      100,
+      200,
+      500
+    ],
+    "diagnostic_classification_threshold": 0.5,
+    "error_segments": [
+      "Contract",
+      "tenure_group"
+    ],
+    "campaign_segment_k": 100,
+    "bootstrap": {
+      "samples": 1000,
+      "seed": 42,
+      "confidence_level": 0.95,
+      "method": "stratified percentile bootstrap of fixed test predictions",
+      "metrics": [
+        "average_precision",
+        "roc_auc"
+      ],
+      "paired_ap_reference": "logistic_regression",
+      "refit_models": false,
+      "class_counts_fixed": true
+    }
+  },
+  "service_policy": {
+    "selection": "top_k",
+    "k_source": "user",
+    "default_k": 100,
+    "default_k_is_demo_capacity": true,
+    "k_range": "1..number_of_uploaded_clients",
+    "ranking": "risk_probability descending, customerID ascending for exact ties",
+    "probability_threshold": null,
+    "requires_churn_column": false
+  },
+  "models": {
+    "gradient_boosting": {
+      "role": "selected_for_service",
+      "parameters": {
+        "learning_rate": 0.061721159481070736,
+        "max_depth": 1,
+        "min_samples_leaf": 5,
+        "n_estimators": 300,
+        "subsample": 1.0
+      },
+      "global_metrics": {
+        "roc_auc": 0.846800485675166,
+        "average_precision": 0.6684128735903974,
+        "accuracy": 0.7998580553584103,
+        "precision": 0.6631205673758865,
+        "recall": 0.5,
+        "f1": 0.5701219512195121,
+        "confusion_matrix": [
+          [
+            940,
+            95
+          ],
+          [
+            187,
+            187
+          ]
+        ]
+      },
+      "top_k": [
+        {
+          "k": 50,
+          "population_fraction": 0.035486160397444996,
+          "true_positives": 43,
+          "false_positives": 7,
+          "precision_at_k": 0.86,
+          "recall_at_k": 0.11497326203208556,
+          "lift_at_k": 3.239946524064171,
+          "cutoff_probability": 0.7656336846794842,
+          "cutoff_tie_size": 1,
+          "selected_from_cutoff_tie": 1,
+          "true_positive_bounds_within_cutoff_tie": [
+            43,
+            43
+          ]
+        },
+        {
+          "k": 100,
+          "population_fraction": 0.07097232079488999,
+          "true_positives": 80,
+          "false_positives": 20,
+          "precision_at_k": 0.8,
+          "recall_at_k": 0.21390374331550802,
+          "lift_at_k": 3.013903743315508,
+          "cutoff_probability": 0.6789807427768336,
+          "cutoff_tie_size": 4,
+          "selected_from_cutoff_tie": 1,
+          "true_positive_bounds_within_cutoff_tie": [
+            79,
+            80
+          ]
+        },
+        {
+          "k": 200,
+          "population_fraction": 0.14194464158977999,
+          "true_positives": 144,
+          "false_positives": 56,
+          "precision_at_k": 0.72,
+          "recall_at_k": 0.3850267379679144,
+          "lift_at_k": 2.712513368983957,
+          "cutoff_probability": 0.5717739218274549,
+          "cutoff_tie_size": 2,
+          "selected_from_cutoff_tie": 1,
+          "true_positive_bounds_within_cutoff_tie": [
+            143,
+            144
+          ]
+        },
+        {
+          "k": 500,
+          "population_fraction": 0.35486160397445,
+          "true_positives": 277,
+          "false_positives": 223,
+          "precision_at_k": 0.554,
+          "recall_at_k": 0.7406417112299465,
+          "lift_at_k": 2.087128342245989,
+          "cutoff_probability": 0.3331459684271421,
+          "cutoff_tie_size": 1,
+          "selected_from_cutoff_tie": 1,
+          "true_positive_bounds_within_cutoff_tie": [
+            277,
+            277
+          ]
+        }
+      ]
+    },
+    "dummy_prior": {
+      "role": "reference_only",
+      "parameters": {},
+      "global_metrics": {
+        "roc_auc": 0.5,
+        "average_precision": 0.2654364797728886,
+        "accuracy": 0.7345635202271115,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "confusion_matrix": [
+          [
+            1035,
+            0
+          ],
+          [
+            374,
+            0
+          ]
+        ]
+      },
+      "top_k": null
+    },
+    "logistic_regression": {
+      "role": "reference_only",
+      "parameters": {
+        "C": 1.0
+      },
+      "global_metrics": {
+        "roc_auc": 0.8418713994161565,
+        "average_precision": 0.6338135969389643,
+        "accuracy": 0.8055358410220014,
+        "precision": 0.6572327044025157,
+        "recall": 0.5588235294117647,
+        "f1": 0.6040462427745664,
+        "confusion_matrix": [
+          [
+            926,
+            109
+          ],
+          [
+            165,
+            209
+          ]
+        ]
+      },
+      "top_k": [
+        {
+          "k": 50,
+          "population_fraction": 0.035486160397444996,
+          "true_positives": 39,
+          "false_positives": 11,
+          "precision_at_k": 0.78,
+          "recall_at_k": 0.10427807486631016,
+          "lift_at_k": 2.9385561497326202,
+          "cutoff_probability": 0.7395306360422655,
+          "cutoff_tie_size": 1,
+          "selected_from_cutoff_tie": 1,
+          "true_positive_bounds_within_cutoff_tie": [
+            39,
+            39
+          ]
+        },
+        {
+          "k": 100,
+          "population_fraction": 0.07097232079488999,
+          "true_positives": 73,
+          "false_positives": 27,
+          "precision_at_k": 0.73,
+          "recall_at_k": 0.19518716577540107,
+          "lift_at_k": 2.750187165775401,
+          "cutoff_probability": 0.692991964781837,
+          "cutoff_tie_size": 1,
+          "selected_from_cutoff_tie": 1,
+          "true_positive_bounds_within_cutoff_tie": [
+            73,
+            73
+          ]
+        },
+        {
+          "k": 200,
+          "population_fraction": 0.14194464158977999,
+          "true_positives": 144,
+          "false_positives": 56,
+          "precision_at_k": 0.72,
+          "recall_at_k": 0.3850267379679144,
+          "lift_at_k": 2.712513368983957,
+          "cutoff_probability": 0.604155878529986,
+          "cutoff_tie_size": 1,
+          "selected_from_cutoff_tie": 1,
+          "true_positive_bounds_within_cutoff_tie": [
+            144,
+            144
+          ]
+        },
+        {
+          "k": 500,
+          "population_fraction": 0.35486160397445,
+          "true_positives": 270,
+          "false_positives": 230,
+          "precision_at_k": 0.54,
+          "recall_at_k": 0.7219251336898396,
+          "lift_at_k": 2.0343850267379677,
+          "cutoff_probability": 0.3299720440793274,
+          "cutoff_tie_size": 1,
+          "selected_from_cutoff_tie": 1,
+          "true_positive_bounds_within_cutoff_tie": [
+            270,
+            270
+          ]
+        }
+      ]
+    }
+  },
+  "random_selection_reference": [
+    {
+      "k": 50,
+      "expected_true_positives": 13.27182398864443,
+      "expected_precision_at_k": 0.2654364797728886,
+      "expected_recall_at_k": 0.035486160397444996,
+      "expected_lift_at_k": 1.0
+    },
+    {
+      "k": 100,
+      "expected_true_positives": 26.54364797728886,
+      "expected_precision_at_k": 0.2654364797728886,
+      "expected_recall_at_k": 0.07097232079488999,
+      "expected_lift_at_k": 1.0
+    },
+    {
+      "k": 200,
+      "expected_true_positives": 53.08729595457772,
+      "expected_precision_at_k": 0.2654364797728886,
+      "expected_recall_at_k": 0.14194464158977999,
+      "expected_lift_at_k": 1.0
+    },
+    {
+      "k": 500,
+      "expected_true_positives": 132.7182398864443,
+      "expected_precision_at_k": 0.2654364797728886,
+      "expected_recall_at_k": 0.35486160397445,
+      "expected_lift_at_k": 1.0
+    }
+  ],
+  "uncertainty": {
+    "protocol": {
+      "samples": 1000,
+      "seed": 42,
+      "confidence_level": 0.95,
+      "method": "stratified percentile bootstrap of fixed test predictions",
+      "metrics": [
+        "average_precision",
+        "roc_auc"
+      ],
+      "paired_ap_reference": "logistic_regression",
+      "refit_models": false,
+      "class_counts_fixed": true
+    },
+    "intervals": {
+      "average_precision": {
+        "estimate": 0.6684128735903974,
+        "lower": 0.6262318043262787,
+        "upper": 0.7116991586882134
+      },
+      "roc_auc": {
+        "estimate": 0.846800485675166,
+        "lower": 0.8247253868609368,
+        "upper": 0.8680231341548477
+      },
+      "paired_ap_difference": {
+        "estimate": 0.03459927665143303,
+        "lower": 0.01298070878735797,
+        "upper": 0.053548148632842005
+      }
+    }
+  },
+  "selected_model_error_analysis": {
+    "classification_threshold_0_5": {
+      "Contract": {
+        "Month-to-month": {
+          "count": 773,
+          "positives": 329,
+          "churn_rate": 0.425614489003881,
+          "tp": 187,
+          "fp": 95,
+          "fn": 142,
+          "tn": 349,
+          "precision": 0.6631205673758865,
+          "recall": 0.5683890577507599
+        },
+        "One year": {
+          "count": 300,
+          "positives": 36,
+          "churn_rate": 0.12,
+          "tp": 0,
+          "fp": 0,
+          "fn": 36,
+          "tn": 264,
+          "precision": null,
+          "recall": 0.0
+        },
+        "Two year": {
+          "count": 336,
+          "positives": 9,
+          "churn_rate": 0.026785714285714284,
+          "tp": 0,
+          "fp": 0,
+          "fn": 9,
+          "tn": 327,
+          "precision": null,
+          "recall": 0.0
+        }
+      },
+      "tenure_group": {
+        "0–12": {
+          "count": 449,
+          "positives": 215,
+          "churn_rate": 0.47884187082405344,
+          "tp": 146,
+          "fp": 68,
+          "fn": 69,
+          "tn": 166,
+          "precision": 0.6822429906542056,
+          "recall": 0.6790697674418604
+        },
+        "13–24": {
+          "count": 206,
+          "positives": 60,
+          "churn_rate": 0.2912621359223301,
+          "tp": 25,
+          "fp": 16,
+          "fn": 35,
+          "tn": 130,
+          "precision": 0.6097560975609756,
+          "recall": 0.4166666666666667
+        },
+        "25–48": {
+          "count": 304,
+          "positives": 64,
+          "churn_rate": 0.21052631578947367,
+          "tp": 14,
+          "fp": 9,
+          "fn": 50,
+          "tn": 231,
+          "precision": 0.6086956521739131,
+          "recall": 0.21875
+        },
+        "49+": {
+          "count": 450,
+          "positives": 35,
+          "churn_rate": 0.07777777777777778,
+          "tp": 2,
+          "fp": 2,
+          "fn": 33,
+          "tn": 413,
+          "precision": 0.5,
+          "recall": 0.05714285714285714
+        }
+      }
+    },
+    "global_top_k_100": {
+      "Contract": {
+        "Month-to-month": {
+          "count": 773,
+          "positives": 329,
+          "churn_rate": 0.425614489003881,
+          "tp": 80,
+          "fp": 20,
+          "fn": 249,
+          "tn": 424,
+          "precision": 0.8,
+          "recall": 0.24316109422492402
+        },
+        "One year": {
+          "count": 300,
+          "positives": 36,
+          "churn_rate": 0.12,
+          "tp": 0,
+          "fp": 0,
+          "fn": 36,
+          "tn": 264,
+          "precision": null,
+          "recall": 0.0
+        },
+        "Two year": {
+          "count": 336,
+          "positives": 9,
+          "churn_rate": 0.026785714285714284,
+          "tp": 0,
+          "fp": 0,
+          "fn": 9,
+          "tn": 327,
+          "precision": null,
+          "recall": 0.0
+        }
+      },
+      "tenure_group": {
+        "0–12": {
+          "count": 449,
+          "positives": 215,
+          "churn_rate": 0.47884187082405344,
+          "tp": 78,
+          "fp": 19,
+          "fn": 137,
+          "tn": 215,
+          "precision": 0.8041237113402062,
+          "recall": 0.3627906976744186
+        },
+        "13–24": {
+          "count": 206,
+          "positives": 60,
+          "churn_rate": 0.2912621359223301,
+          "tp": 2,
+          "fp": 1,
+          "fn": 58,
+          "tn": 145,
+          "precision": 0.6666666666666666,
+          "recall": 0.03333333333333333
+        },
+        "25–48": {
+          "count": 304,
+          "positives": 64,
+          "churn_rate": 0.21052631578947367,
+          "tp": 0,
+          "fp": 0,
+          "fn": 64,
+          "tn": 240,
+          "precision": null,
+          "recall": 0.0
+        },
+        "49+": {
+          "count": 450,
+          "positives": 35,
+          "churn_rate": 0.07777777777777778,
+          "tp": 0,
+          "fp": 0,
+          "fn": 35,
+          "tn": 415,
+          "precision": null,
+          "recall": 0.0
+        }
+      }
+    }
+  },
+  "service_model_path": "artifacts/final/model.joblib"
+}
